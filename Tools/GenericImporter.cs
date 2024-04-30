@@ -1,4 +1,5 @@
-﻿using Public_Snippets.Common_Models;
+﻿using Microsoft.VisualBasic;
+using Public_Snippets.Common_Models;
 
 namespace Public_Snippets.Tools;
 
@@ -26,7 +27,7 @@ public class GenericImporter
         //            o.Name,
         //            o.CategoryID
         //        }).ToListAsync();
-
+        //
         //        return existingUnits.Select(u => (u.BrandID, u.Name)).ToList();
         //    },
         //    obj => (
@@ -44,6 +45,21 @@ public class GenericImporter
         //    async entity => (
         //        (await _someMethods.SaveEntityAsync(entity, false)).EntityID,
         //        entity.entity.name
+        //    )
+        //);
+
+
+        //var contentDict = await genericListImportAsync(
+        //    async () =>
+        //    {
+        //
+        //    },
+        //    obj => obj.Contents.Select(o => (
+        //
+        //    )).ToList()
+        //    ,
+        //    async entity => (
+        //
         //    )
         //);
 
@@ -79,6 +95,44 @@ public class GenericImporter
             var @return = await saveEntityAsync(entity);
 
             entityDict.TryAdd(entityName, @return);
+        }
+
+        return entityDict;
+    }
+
+
+    private async Task<Dictionary<string, (int id, string internalId)>> genericListImportAsync<T>(
+            Func<Task<List<(int id, string name)>>> fetchDataFunc,
+            Func<Import, List<(T entity, string name)>> entityListCreator,
+            Func<T, Task<(int id, string name)>> saveEntityAsync
+        )
+    {
+        var entityDict = new Dictionary<string, (int id, string name)>();
+
+        // Fetch existing data
+        var existingData = await fetchDataFunc();
+
+        foreach (var (id, name) in existingData)
+        {
+            entityDict.TryAdd(name, (id, name));
+        }
+
+        // Process imported JSON content
+        foreach (var obj in _data)
+        {
+            var list = entityListCreator(obj);
+
+            foreach (var (entity, entityName) in list)
+            {
+                if (entityName == null || entityDict.ContainsKey(entityName))
+                {
+                    continue;
+                }
+
+                var @return = await saveEntityAsync(entity);
+
+                entityDict.TryAdd(entityName, @return);
+            }
         }
 
         return entityDict;
