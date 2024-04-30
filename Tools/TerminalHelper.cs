@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Public_Snippets.Tools;
 
-namespace Public_Snippets.Tools;
-
-static class TerminalHelper
+internal static class TerminalHelper
 {
     public static void ClearAndPrintMessage(string message)
     {
@@ -29,6 +23,7 @@ static class TerminalHelper
         }
         return Console.ReadLine();
     }
+
     public static bool InputValidation(string? message)
     {
         string msg;
@@ -50,12 +45,14 @@ static class TerminalHelper
                 case ConsoleKey.Y:
                     Console.CursorVisible = true;
                     return true;
+
                 case ConsoleKey.N:
                     Console.CursorVisible = true;
                     return false;
             }
         }
     }
+
     public static void Header(string row1)
     {
         Console.WriteLine("##############################");
@@ -82,33 +79,43 @@ static class TerminalHelper
             case int i when i >= 0 && i < 10:
                 toPrint = "[----------]";
                 break;
+
             case int i when i >= 0 && i < 10:
                 toPrint = "[#---------]";
                 break;
+
             case int i when i >= 10 && i < 20:
                 toPrint = "[##--------]";
                 break;
+
             case int i when i >= 20 && i < 30:
                 toPrint = "[###-------]";
                 break;
+
             case int i when i >= 30 && i < 40:
                 toPrint = "[####------]";
                 break;
+
             case int i when i >= 40 && i < 50:
                 toPrint = "[#####-----]";
                 break;
+
             case int i when i >= 50 && i < 60:
                 toPrint = "[######----]";
                 break;
+
             case int i when i >= 60 && i < 70:
                 toPrint = "[#######---]";
                 break;
+
             case int i when i >= 70 && i < 80:
                 toPrint = "[########--]";
                 break;
+
             case int i when i >= 80 && i < 90:
                 toPrint = "[#########-]";
                 break;
+
             case int i when i >= 90 && i <= 100:
                 toPrint = "[##########]";
                 break;
