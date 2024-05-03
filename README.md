@@ -1,1 +1,1 @@
-# Public random snippets used by me
+snippets used by me
