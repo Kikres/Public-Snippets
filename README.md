@@ -1,1 +1,1 @@
-snippets used by me
+Test for a future public toolkit
